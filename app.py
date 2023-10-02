@@ -1,9 +1,3 @@
-# @Email:  contact@pythonandvba.com
-# @Website:  https://pythonandvba.com
-# @YouTube:  https://youtube.com/c/CodingIsFun
-# @Project:  Sales Dashboard w/ Streamlit
-
-
 
 import pandas as pd  # pip install pandas openpyxl
 import plotly.express as px  # pip install plotly-express
@@ -12,7 +6,7 @@ import streamlit as st  # pip install streamlit
 # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.set_page_config(page_title="Sales Dashboard", page_icon=":bar_chart:", layout="wide")
 
-# ---- READ EXCEL ----
+
 @st.cache_data
 def get_data_from_excel():
     df = pd.read_excel(
@@ -23,7 +17,7 @@ def get_data_from_excel():
         usecols="B:R",
         nrows=1000,
     )
-    # Add 'hour' column to dataframe
+   
     df["hour"] = pd.to_datetime(df["Time"], format="%H:%M:%S").dt.hour
     return df
 
@@ -53,7 +47,7 @@ df_selection = df.query(
     "City == @city & Customer_type ==@customer_type & Gender == @gender"
 )
 
-# Check if the dataframe is empty:
+
 if df_selection.empty:
     st.warning("No data available based on the current filter settings!")
     st.stop() # This will halt the app from further execution.
@@ -81,7 +75,7 @@ with right_column:
 
 st.markdown("""---""")
 
-# SALES BY PRODUCT LINE [BAR CHART]
+
 sales_by_product_line = df_selection.groupby(by=["Product line"])[["Total"]].sum().sort_values(by="Total")
 fig_product_sales = px.bar(
     sales_by_product_line,
@@ -119,7 +113,7 @@ left_column.plotly_chart(fig_hourly_sales, use_container_width=True)
 right_column.plotly_chart(fig_product_sales, use_container_width=True)
 
 
-# ---- HIDE STREAMLIT STYLE ----
+-
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
